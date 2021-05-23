@@ -1,123 +1,134 @@
-package com.xw.samlpe.bubbleseekbar;
+package com.xw.samlpe.bubbleseekbar
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.util.SparseArray;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.xw.repo.BubbleSeekBar;
-
-import java.util.Locale;
+import android.app.Activity
+import android.os.Bundle
+import android.util.SparseArray
+import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import com.xw.repo.BubbleSeekBar
+import com.xw.repo.BubbleSeekBar.CustomSectionTextArray
+import com.xw.repo.BubbleSeekBar.OnProgressChangedListenerAdapter
+import com.xw.samlpe.bubbleseekbar.databinding.FragmentDemo4Binding
+import java.util.*
 
 /**
  * DemoFragment4
- * <p>
+ *
+ *
  * Created by woxingxiao on 2017-03-11.
  */
+class DemoFragment4 : Fragment(R.layout.fragment_demo_4) {
+	private val mActivity: Activity by lazy { context as Activity }
 
-public class DemoFragment4 extends Fragment {
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		FragmentDemo4Binding.bind(view).apply {
+			demo4ObsScrollView.setOnScrollChangedListener { _, _, _, _, _ ->
+				demo4SeekBar1.correctOffsetWhenContainerOnScrolling()
+			}
+			demo4SeekBar2.onProgressChangedListener = object : OnProgressChangedListenerAdapter() {
+				override fun onProgressChanged(
+					bubbleSeekBar: BubbleSeekBar?,
+					progress: Int,
+					progressFloat: Float,
+					fromUser: Boolean
+				) {
+					val s = String.format(
+						Locale.CHINA,
+						"onChanged int:%d, float:%.1f",
+						progress,
+						progressFloat
+					)
+					demo4ProgressText1.text = s
+				}
 
-    private Activity mActivity;
+				override fun getProgressOnActionUp(
+					bubbleSeekBar: BubbleSeekBar?,
+					progress: Int,
+					progressFloat: Float
+				) {
+					val s = String.format(
+						Locale.CHINA,
+						"onActionUp int:%d, float:%.1f",
+						progress,
+						progressFloat
+					)
+					demo4ProgressText2.text = s
+				}
 
-    public static DemoFragment4 newInstance() {
-        return new DemoFragment4();
-    }
+				override fun getProgressOnFinally(
+					bubbleSeekBar: BubbleSeekBar?,
+					progress: Int,
+					progressFloat: Float,
+					fromUser: Boolean
+				) {
+					val s = String.format(
+						Locale.CHINA,
+						"onFinally int:%d, float:%.1f",
+						progress,
+						progressFloat
+					)
+					demo4ProgressText3.text = s
+				}
+			}
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+			// trigger by set progress or seek by finger
+			demo4SeekBar3.setProgress(demo4SeekBar3.max)
 
-        View view = inflater.inflate(R.layout.fragment_demo_4, container, false);
-        ObservableScrollView mObsScrollView = view.findViewById(R.id.demo_4_obs_scroll_view);
-        final BubbleSeekBar bubbleSeekBar1 = view.findViewById(R.id.demo_4_seek_bar_1);
-        final BubbleSeekBar bubbleSeekBar2 = view.findViewById(R.id.demo_4_seek_bar_2);
-        final BubbleSeekBar bubbleSeekBar3 = view.findViewById(R.id.demo_4_seek_bar_3);
-        final BubbleSeekBar bubbleSeekBar4 = view.findViewById(R.id.demo_4_seek_bar_4);
-        final TextView progressText1 = view.findViewById(R.id.demo_4_progress_text_1);
-        final TextView progressText2 = view.findViewById(R.id.demo_4_progress_text_2);
-        final TextView progressText3 = view.findViewById(R.id.demo_4_progress_text_3);
+			// customize section texts
+			demo4SeekBar4.apply {
+				setCustomSectionTextArray(object : CustomSectionTextArray {
+					override fun onCustomize(
+						sectionCount: Int,
+						array: SparseArray<String?>
+					): SparseArray<String?> {
+						array.clear()
+						array[1] = "bad"
+						array[4] = "ok"
+						array[7] = "good"
+						array[9] = "great"
+						return array
+					}
+				})
+				onProgressChangedListener = object : OnProgressChangedListenerAdapter() {
+					override fun onProgressChanged(
+						bubbleSeekBar: BubbleSeekBar?,
+						progress: Int,
+						progressFloat: Float,
+						fromUser: Boolean
+					) {
+						val color: Int = when {
+							progress <= 10 -> {
+								ContextCompat.getColor(mActivity, R.color.color_red)
+							}
+							progress <= 40 -> {
+								ContextCompat.getColor(mActivity, R.color.color_red_light)
+							}
+							progress <= 70 -> {
+								ContextCompat.getColor(mActivity, R.color.colorAccent)
+							}
+							progress <= 90 -> {
+								ContextCompat.getColor(mActivity, R.color.color_blue)
+							}
+							else -> {
+								ContextCompat.getColor(mActivity, R.color.color_green)
+							}
+						}
+						bubbleSeekBar!!.setSecondTrackColor(color)
+						bubbleSeekBar.setThumbColor(color)
+						bubbleSeekBar.setBubbleColor(color)
+					}
+				}
+				setProgress(60f)
+			}
+		}
+	}
 
-        mObsScrollView.setOnScrollChangedListener(new ObservableScrollView.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
-                bubbleSeekBar1.correctOffsetWhenContainerOnScrolling();
-            }
-        });
-        bubbleSeekBar2.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListenerAdapter() {
-            @Override
-            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
-                String s = String.format(Locale.CHINA, "onChanged int:%d, float:%.1f", progress, progressFloat);
-                progressText1.setText(s);
-            }
+	companion object {
+		fun newInstance(): DemoFragment4 = DemoFragment4()
+	}
+	private operator fun <E> SparseArray<E>.set(i: Int, value: E) = put(i, value)
 
-            @Override
-            public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
-                String s = String.format(Locale.CHINA, "onActionUp int:%d, float:%.1f", progress, progressFloat);
-                progressText2.setText(s);
-            }
-
-            @Override
-            public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
-                String s = String.format(Locale.CHINA, "onFinally int:%d, float:%.1f", progress, progressFloat);
-                progressText3.setText(s);
-            }
-        });
-
-        // trigger by set progress or seek by finger
-        bubbleSeekBar3.setProgress(bubbleSeekBar3.getMax());
-
-        // customize section texts
-        bubbleSeekBar4.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
-            @NonNull
-            @Override
-            public SparseArray<String> onCustomize(int sectionCount, @NonNull SparseArray<String> array) {
-                array.clear();
-                array.put(1, "bad");
-                array.put(4, "ok");
-                array.put(7, "good");
-                array.put(9, "great");
-
-                return array;
-            }
-        });
-        bubbleSeekBar4.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListenerAdapter() {
-            @Override
-            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
-                int color;
-                if (progress <= 10) {
-                    color = ContextCompat.getColor(mActivity, R.color.color_red);
-                } else if (progress <= 40) {
-                    color = ContextCompat.getColor(mActivity, R.color.color_red_light);
-                } else if (progress <= 70) {
-                    color = ContextCompat.getColor(mActivity, R.color.colorAccent);
-                } else if (progress <= 90) {
-                    color = ContextCompat.getColor(mActivity, R.color.color_blue);
-                } else {
-                    color = ContextCompat.getColor(mActivity, R.color.color_green);
-                }
-
-                bubbleSeekBar.setSecondTrackColor(color);
-                bubbleSeekBar.setThumbColor(color);
-                bubbleSeekBar.setBubbleColor(color);
-            }
-        });
-        bubbleSeekBar4.setProgress(60);
-
-        return view;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        mActivity = (Activity) context;
-    }
 }
+
+

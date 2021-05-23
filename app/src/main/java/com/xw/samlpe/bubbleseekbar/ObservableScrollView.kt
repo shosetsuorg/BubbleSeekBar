@@ -1,46 +1,35 @@
-package com.xw.samlpe.bubbleseekbar;
+package com.xw.samlpe.bubbleseekbar
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.widget.ScrollView;
+import android.content.Context
+import android.util.AttributeSet
+import android.view.MotionEvent
+import android.widget.ScrollView
 
-public class ObservableScrollView extends ScrollView {
+class ObservableScrollView @JvmOverloads constructor(
+	context: Context?,
+	attrs: AttributeSet? = null,
+	defStyleAttr: Int = 0,
+) : ScrollView(context, attrs, defStyleAttr) {
+	private var mOnScrollChangedListener: OnScrollChangedListener? = null
 
-    private OnScrollChangedListener mOnScrollChangedListener;
+	fun setOnScrollChangedListener(onScrollChangedListener: OnScrollChangedListener) {
+		mOnScrollChangedListener = onScrollChangedListener
+	}
 
-    public ObservableScrollView(Context context) {
-        super(context);
-    }
+	override fun onScrollChanged(x: Int, y: Int, oldx: Int, oldy: Int) {
+		super.onScrollChanged(x, y, oldx, oldy)
+		if (mOnScrollChangedListener != null)
+			mOnScrollChangedListener!!(this, x, y, oldx, oldy)
+	}
 
-    public ObservableScrollView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-    }
-
-    public ObservableScrollView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public void setOnScrollChangedListener(OnScrollChangedListener onScrollChangedListener) {
-        this.mOnScrollChangedListener = onScrollChangedListener;
-    }
-
-    @Override
-    protected void onScrollChanged(int x, int y, int oldx, int oldy) {
-        super.onScrollChanged(x, y, oldx, oldy);
-        if (mOnScrollChangedListener != null) {
-            mOnScrollChangedListener.onScrollChanged(this, x, y, oldx, oldy);
-        }
-    }
-
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return false; // 此处为了演示，阻止ScrollView拦截Touch事件
-    }
-
-    interface OnScrollChangedListener {
-
-        void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy);
-
-    }
+	override fun onInterceptTouchEvent(ev: MotionEvent): Boolean =
+		false // 此处为了演示，阻止ScrollView拦截Touch事件
 }
+
+typealias OnScrollChangedListener = (
+	@ParameterName("scrollView") ObservableScrollView?,
+	@ParameterName("x") Int,
+	@ParameterName("y") Int,
+	@ParameterName("oldx") Int,
+	@ParameterName("oldy") Int
+) -> Unit

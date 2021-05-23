@@ -1,50 +1,40 @@
-package com.xw.samlpe.bubbleseekbar;
+package com.xw.samlpe.bubbleseekbar
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-
-import com.xw.repo.BubbleSeekBar;
-
-import java.util.Random;
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
+import com.xw.repo.BubbleSeekBar
+import com.xw.samlpe.bubbleseekbar.databinding.FragmentDemo1Binding
+import java.util.*
 
 /**
  * DemoFragment1
- * <p>
+ *
+ *
  * Created by woxingxiao on 2017-03-11.
  */
+class DemoFragment1 : Fragment(R.layout.fragment_demo_1) {
 
-public class DemoFragment1 extends Fragment {
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+		val binding = FragmentDemo1Binding.bind(view)
 
-    public static DemoFragment1 newInstance() {
-        return new DemoFragment1();
-    }
+		val bubbleSeekBar: BubbleSeekBar = binding.demo1SeekBar
+		bubbleSeekBar.setProgress(20f)
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+		val button = binding.demo1Button
 
-        View view = inflater.inflate(R.layout.fragment_demo_1, container, false);
+		button.setOnClickListener { v ->
+			val progress = Random().nextInt(bubbleSeekBar.max.toInt())
+			bubbleSeekBar.setProgress(progress.toFloat())
+			Snackbar.make(v, "set random progress = $progress", Snackbar.LENGTH_SHORT).show()
+		}
+	}
 
-        final BubbleSeekBar bubbleSeekBar = view.findViewById(R.id.demo_1_seek_bar);
-        bubbleSeekBar.setProgress(20);
-        Button button = view.findViewById(R.id.demo_1_button);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int progress = new Random().nextInt((int) bubbleSeekBar.getMax());
-                bubbleSeekBar.setProgress(progress);
-                Snackbar.make(v, "set random progress = " + progress, Snackbar.LENGTH_SHORT).show();
-            }
-        });
-
-        return view;
-    }
+	companion object {
+		fun newInstance(): DemoFragment1 = DemoFragment1()
+	}
 }

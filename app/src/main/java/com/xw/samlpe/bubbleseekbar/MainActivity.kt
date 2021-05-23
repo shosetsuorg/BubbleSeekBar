@@ -1,107 +1,87 @@
-package com.xw.samlpe.bubbleseekbar;
+package com.xw.samlpe.bubbleseekbar
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import com.xw.samlpe.bubbleseekbar.databinding.ActivityMainBinding
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
+	private var mTag: String? = null
 
-    private String mTag;
+	private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		setContentView(binding.root)
+		setSupportActionBar(binding.toolbar)
+		binding.mainTabBtn1.setOnClickListener(this)
+		binding.mainTabBtn2.setOnClickListener(this)
+		binding.mainTabBtn3.setOnClickListener(this)
+		binding.mainTabBtn4.setOnClickListener(this)
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+		if (savedInstanceState == null) {
+			val ft = supportFragmentManager.beginTransaction()
+			ft.add(R.id.container, DemoFragment1.newInstance(), "demo1")
+			ft.commit()
+			mTag = "demo1"
+		}
+	}
 
-        findViewById(R.id.main_tab_btn_1).setOnClickListener(this);
-        findViewById(R.id.main_tab_btn_2).setOnClickListener(this);
-        findViewById(R.id.main_tab_btn_3).setOnClickListener(this);
-        findViewById(R.id.main_tab_btn_4).setOnClickListener(this);
+	override fun onClick(v: View) {
+		when (v.id) {
+			R.id.main_tab_btn_1 -> switchContent("demo1")
+			R.id.main_tab_btn_2 -> switchContent("demo2")
+			R.id.main_tab_btn_3 -> switchContent("demo3")
+			R.id.main_tab_btn_4 -> switchContent("demo4")
+		}
+	}
 
-        if (savedInstanceState == null) {
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(R.id.container, DemoFragment1.newInstance(), "demo1");
-            ft.commit();
-            mTag = "demo1";
-        }
-    }
+	private fun switchContent(toTag: String) {
+		if (mTag == toTag) return
+		val fm = supportFragmentManager
+		val from = fm.findFragmentByTag(mTag)
+		var to = fm.findFragmentByTag(toTag)
+		val ft = fm.beginTransaction()
+		if (to == null) {
+			to = when (toTag) {
+				"demo1" -> {
+					DemoFragment1.newInstance()
+				}
+				"demo2" -> {
+					DemoFragment2.newInstance()
+				}
+				"demo3" -> {
+					DemoFragment3.newInstance()
+				}
+				else -> {
+					DemoFragment4.newInstance()
+				}
+			}
+		}
+		if (!to.isAdded) {
+			ft.hide(from!!).add(R.id.container, to, toTag)
+		} else {
+			ft.hide(from!!).show(to)
+		}
+		ft.commit()
+		mTag = toTag
+	}
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.main_tab_btn_1:
-                switchContent("demo1");
-                break;
-            case R.id.main_tab_btn_2:
-                switchContent("demo2");
-                break;
-            case R.id.main_tab_btn_3:
-                switchContent("demo3");
-                break;
-            case R.id.main_tab_btn_4:
-                switchContent("demo4");
-                break;
-        }
-    }
+	override fun onCreateOptionsMenu(menu: Menu): Boolean {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		menuInflater.inflate(R.menu.menu_main, menu)
+		return true
+	}
 
-    public void switchContent(String toTag) {
-        if (mTag.equals(toTag))
-            return;
-
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment from = fm.findFragmentByTag(mTag);
-        Fragment to = fm.findFragmentByTag(toTag);
-
-        FragmentTransaction ft = fm.beginTransaction();
-        if (to == null) {
-            if ("demo1".equals(toTag)) {
-                to = DemoFragment1.newInstance();
-            } else if ("demo2".equals(toTag)) {
-                to = DemoFragment2.newInstance();
-            } else if ("demo3".equals(toTag)) {
-                to = DemoFragment3.newInstance();
-            } else {
-                to = DemoFragment4.newInstance();
-            }
-        }
-        if (!to.isAdded()) {
-            ft.hide(from).add(R.id.container, to, toTag);
-        } else {
-            ft.hide(from).show(to);
-        }
-        ft.commit();
-
-        mTag = toTag;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+	override fun onOptionsItemSelected(item: MenuItem): Boolean {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		val id = item.itemId
+		return if (id == R.id.action_settings) {
+			true
+		} else super.onOptionsItemSelected(item)
+	}
 }
