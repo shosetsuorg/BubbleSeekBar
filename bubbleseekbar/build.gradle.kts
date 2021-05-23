@@ -3,7 +3,7 @@ plugins {
 	kotlin("android")
 }
 
-val VERSION_NAME = "3.20"
+val VERSION_NAME = "4.0.0"
 
 android {
 	compileSdkVersion(30)
