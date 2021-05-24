@@ -1,8 +1,8 @@
-package com.xw.repo
+package app.shosetsu.libs.bubbleseekbar
 
 import androidx.annotation.ColorInt
 import androidx.annotation.IntRange
-import com.xw.repo.BubbleSeekBar.TextPosition
+import app.shosetsu.libs.bubbleseekbar.BubbleSeekBar.TextPosition
 
 /**
  * config BubbleSeekBar's attributes

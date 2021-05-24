@@ -13,7 +13,7 @@
         android:text="default"
         android:textSize="12sp"/>
 
-    <com.xw.repo.BubbleSeekBar
+    <app.shosetsu.libs.bubbleseekbar.BubbleSeekBar
         android:id="@+id/demo_1_seek_bar"
         android:layout_width="match_parent"
         android:layout_height="16dp"
@@ -26,7 +26,7 @@
         android:text="custom colors, show section mark, progress:50"
         android:textSize="12sp"/>
 
-    <com.xw.repo.BubbleSeekBar
+    <app.shosetsu.libs.bubbleseekbar.BubbleSeekBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -42,7 +42,7 @@
         android:text="custom track size, min:100, max:500"
         android:textSize="12sp"/>
 
-    <com.xw.repo.BubbleSeekBar
+    <app.shosetsu.libs.bubbleseekbar.BubbleSeekBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -58,7 +58,7 @@
         android:layout_marginTop="16dp"
         android:text="section count:5, custom bubble attrs, show thumb text"/>
 
-    <com.xw.repo.BubbleSeekBar
+    <app.shosetsu.libs.bubbleseekbar.BubbleSeekBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"

@@ -1,4 +1,4 @@
-package com.xw.repo
+package app.shosetsu.libs.bubbleseekbar
 
 import android.annotation.SuppressLint
 import android.content.res.Resources

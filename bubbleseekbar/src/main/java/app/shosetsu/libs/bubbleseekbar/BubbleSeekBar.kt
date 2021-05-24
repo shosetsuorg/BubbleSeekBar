@@ -1,4 +1,4 @@
-package com.xw.repo
+package app.shosetsu.libs.bubbleseekbar
 
 import android.animation.*
 import android.animation.ValueAnimator.AnimatorUpdateListener
@@ -16,7 +16,7 @@ import android.view.animation.LinearInterpolator
 import androidx.annotation.ColorInt
 import androidx.annotation.IntDef
 import androidx.core.content.ContextCompat
-import com.xw.repo.bubbleseekbar.R
+import app.shosetsu.libs.bubbleseekbar.R
 import java.math.BigDecimal
 import kotlin.math.abs
 import kotlin.math.max

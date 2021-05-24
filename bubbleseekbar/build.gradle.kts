@@ -1,11 +1,11 @@
 plugins {
 	id("com.android.library")
-	maven
+	kotlin("android")
 }
 
 val Version = "4.0.0"
 
-group = "app.shosetsu.lib"
+group = "app.shosetsu.libs"
 version = Version
 description = "An old library that makes seek bars easy"
 
@@ -22,7 +22,7 @@ android {
 
 	buildTypes {
 		named("release") {
-			minifyEnabled(false)
+			minifyEnabled(true)
 			proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
 		}
 	}
