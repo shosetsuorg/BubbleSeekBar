@@ -3,6 +3,11 @@ plugins {
 	maven
 }
 
+val Version = "4.0.0"
+
+group = "app.shosetsu.lib"
+version = Version
+description = "An old library that makes seek bars easy"
 
 android {
 	compileSdkVersion(30)
@@ -12,7 +17,7 @@ android {
 		minSdkVersion(16)
 		targetSdkVersion(30)
 		versionCode = 37
-		versionName = "4.0.0"
+		versionName = Version
 	}
 
 	buildTypes {
