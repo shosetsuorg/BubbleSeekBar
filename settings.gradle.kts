@@ -1,1 +1,2 @@
-include(":app", ":bubbleseekbar")
+include( ":bubbleseekbar")
+// include (":app")

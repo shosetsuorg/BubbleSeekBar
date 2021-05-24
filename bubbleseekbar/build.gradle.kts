@@ -1,9 +1,8 @@
 plugins {
 	id("com.android.library")
-	kotlin("android")
+	maven
 }
 
-val VERSION_NAME = "4.0.0"
 
 android {
 	compileSdkVersion(30)
@@ -13,7 +12,7 @@ android {
 		minSdkVersion(16)
 		targetSdkVersion(30)
 		versionCode = 37
-		versionName = VERSION_NAME
+		versionName = "4.0.0"
 	}
 
 	buildTypes {
@@ -30,7 +29,4 @@ dependencies {
 	implementation("androidx.appcompat:appcompat:1.3.0")
 	implementation("androidx.core:core-ktx:1.5.0")
 	implementation(kotlin("stdlib-jdk7", "1.5.0"))
-}
-repositories {
-	mavenCentral()
 }
