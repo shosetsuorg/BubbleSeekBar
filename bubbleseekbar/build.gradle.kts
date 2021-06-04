@@ -1,6 +1,9 @@
 plugins {
 	id("com.android.library")
 	kotlin("android")
+	`maven-publish`
+	`maven`
+	//id("android-maven")
 }
 
 val Version = "4.0.0"
