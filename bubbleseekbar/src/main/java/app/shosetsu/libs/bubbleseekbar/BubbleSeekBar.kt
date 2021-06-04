@@ -1410,7 +1410,8 @@ class BubbleSeekBar @JvmOverloads constructor(
 			mLayoutParams.format = PixelFormat.TRANSLUCENT
 			mLayoutParams.flags = (WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
 					or WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-					or WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED)
+					//or WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+					)
 			// MIUI禁止了开发者使用TYPE_TOAST，Android 7.1.1 对TYPE_TOAST的使用更严格
 			mLayoutParams.type =
 				if (BubbleUtils.isMIUI || Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
@@ -1419,6 +1420,7 @@ class BubbleSeekBar @JvmOverloads constructor(
 					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 						WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
 					} else {
+						@Suppress("DEPRECATION")
 						WindowManager.LayoutParams.TYPE_TOAST
 					}
 				}
