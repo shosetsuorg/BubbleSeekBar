@@ -16,7 +16,6 @@ import android.view.animation.LinearInterpolator
 import androidx.annotation.ColorInt
 import androidx.annotation.IntDef
 import androidx.core.content.ContextCompat
-import app.shosetsu.libs.bubbleseekbar.R
 import java.math.BigDecimal
 import kotlin.math.abs
 import kotlin.math.max
@@ -33,8 +32,7 @@ import kotlin.math.sqrt
 class BubbleSeekBar @JvmOverloads constructor(
 	context: Context,
 	attrs: AttributeSet? = null,
-	defStyleAttr: Int = 0
-) : View(context, attrs, defStyleAttr) {
+) : View(context, attrs) {
 	@IntDef(NONE, TextPosition.SIDES, TextPosition.BOTTOM_SIDES, TextPosition.BELOW_SECTION_MARK)
 	@Retention(AnnotationRetention.SOURCE)
 	annotation class TextPosition {
@@ -1316,7 +1314,7 @@ class BubbleSeekBar @JvmOverloads constructor(
 	}
 
 	init {
-		val a = context.obtainStyledAttributes(attrs, R.styleable.BubbleSeekBar, defStyleAttr, 0)
+		val a = context.obtainStyledAttributes(attrs, R.styleable.BubbleSeekBar, 0, 0)
 		min = a.getFloat(R.styleable.BubbleSeekBar_bsb_min, 0.0f)
 		max = a.getFloat(R.styleable.BubbleSeekBar_bsb_max, 100.0f)
 		mProgress = a.getFloat(R.styleable.BubbleSeekBar_bsb_progress, min)
