@@ -1,9 +1,6 @@
 plugins {
 	id("com.android.library")
-	//kotlin("android")
 	`maven-publish`
-	`maven`
-	//id("android-maven")
 }
 
 val Version = "4.0.0"
@@ -35,6 +32,20 @@ dependencies {
 	implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
 	implementation("androidx.appcompat:appcompat:1.3.0")
-	implementation("androidx.core:core-ktx:1.5.0")
+	implementation("androidx.core:core-ktx:1.6.0")
 	implementation(kotlin("stdlib-jdk7", "1.5.0"))
+}
+
+afterEvaluate {
+	publishing {
+		publications {
+			// Creates a Maven publication called "release".
+
+			create<MavenPublication>("release") {
+				// Applies the component for the release build variant.
+				from(components.getByName("release"))
+			}
+		}
+
+	}
 }
