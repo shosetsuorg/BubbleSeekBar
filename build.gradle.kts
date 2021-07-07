@@ -29,7 +29,3 @@ allprojects {
     //    options.addStringOption("encoding", "UTF-8")
     //}
 }
-
-task("clean", Delete::class) {
-    delete(rootProject.buildDir)
-}
