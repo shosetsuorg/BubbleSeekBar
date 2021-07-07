@@ -4,37 +4,27 @@ plugins {
 	`maven-publish`
 }
 
-val Version = "4.0.0"
-
 group = "app.shosetsu.libs"
-version = Version
-description = "An old library that makes seek bars easy"
+version = "5.0.0"
+
 
 android {
 	compileSdkVersion(30)
-	buildToolsVersion("30.0.3")
+	buildToolsVersion = "30.0.3"
 
 	defaultConfig {
 		minSdkVersion(16)
 		targetSdkVersion(30)
 		versionCode = 37
-		versionName = Version
+		versionName = "5.0.0"
 	}
 
 	buildTypes {
 		named("release") {
-			minifyEnabled(true)
+			minifyEnabled(false)
 			proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
 		}
 	}
-}
-
-dependencies {
-	implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-
-	implementation("androidx.appcompat:appcompat:1.3.0")
-	implementation("androidx.core:core-ktx:1.6.0")
-	implementation(kotlin("stdlib-jdk8", "1.5.0"))
 }
 
 afterEvaluate {
@@ -50,3 +40,10 @@ afterEvaluate {
 
 	}
 }
+
+dependencies {
+	implementation("androidx.appcompat:appcompat:1.3.0")
+	implementation("androidx.core:core-ktx:1.6.0")
+	implementation(kotlin("stdlib-jdk8", "1.5.0"))
+}
+
